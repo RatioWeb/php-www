@@ -25,8 +25,8 @@ ADD scripts/start-apache2.sh /start-apache2.sh
 ADD scripts/run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD configs/php/php.ini /etc/php5/apache2/conf.d/40_custom.ini
-ADD configs/supervisord/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD configs/supervisord/supervisord-sshd.conf /etc/supervisor/conf.d/supervisord-sshd.conf
+ADD configs/supervisor/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
+ADD configs/supervisor/supervisord-sshd.conf /etc/supervisor/conf.d/supervisord-sshd.conf
 
 # config to enable .htaccess
 ADD configs/apache/apache_default /etc/apache2/sites-available/000-default.conf
