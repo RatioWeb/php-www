@@ -1,0 +1,17 @@
+db:
+  image: mariadb
+  ports:
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=foodcoop
+web:
+  volumes:
+    - app:/var/www
+    - logs/apache2:/var/log/apache2
+  image: foodcoopsystem/dev-www
+  links:
+    - db
+  ports:
+    - "80:80"
+    - "9022:22"
