@@ -4,7 +4,7 @@ MAINTAINER Jarek Sobiecki <jsobiecki@ratioweb.pl>
 # Install packages (this is generic version with all required extensions).
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-gd drush
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-memcached php5-gd drush
 
 
 
@@ -25,6 +25,7 @@ RUN a2enmod ssl
 #Enviornment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
+ENV PHP_DISABLE_MODULES=""
 
 EXPOSE 80
 
