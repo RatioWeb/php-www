@@ -4,7 +4,7 @@ MAINTAINER Jarek Sobiecki <jsobiecki@ratioweb.pl>
 # Install packages (this is generic version with all required extensions).
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-memcached php5-gd drush
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-memcached php5-gd curl
 
 
 
@@ -21,6 +21,16 @@ ADD configs/apache/apache_default_ssl /etc/apache2/sites-available/000-default-s
 RUN a2enmod rewrite
 RUN a2enmod ssl
 
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --version=1.0.0-alpha11
+RUN mv composer.phar /usr/local/bin/composer  && chmod +x /usr/local/bin/composer
+
+# Install drush
+RUN /usr/local/bin/composer global require drush/drush:8.x
+
+# Change PATH of root user
+RUN echo "export PATH=~/.composer/vendor/bin:$PATH" >> /root/.bashrc
+
 
 #Enviornment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
@@ -31,5 +41,6 @@ EXPOSE 80
 
 # Add volumes for Apache 
 VOLUME  ["/var/log/apache2" ]
+VOLUME  ["/var/www" ]
 
 CMD ["/run.sh"]
