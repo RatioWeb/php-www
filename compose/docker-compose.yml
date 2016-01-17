@@ -1,17 +1,27 @@
+solr:
+  image: solr:5.3
 db:
   image: mariadb
   ports:
     - "3306:3306"
   environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=foodcoop
+    - MYSQL_DATABASE=test
+
+memcache:
+  image: memcached
 web:
+
+  environment:
+    - PHP_DISABLED_MODULES=xdebug xhprof
   volumes:
-    - app:/var/www
+    - .:/var/www
     - logs/apache2:/var/log/apache2
-  image: foodcoopsystem/dev-www
+  image: ratioweb/php-www:5.6
   links:
+    - memcache
     - db
+    - solr
   ports:
     - "80:80"
-    - "9022:22"
+    - "8022:22"
