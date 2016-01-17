@@ -53,6 +53,7 @@ EXPOSE 80 22
 
 # Add volumes for Apache 
 VOLUME  ["/var/log/apache2" ]
+VOLUME  ["/var/log/supervisor" ]
 VOLUME  ["/var/www" ]
 
 CMD ["/run.sh"]

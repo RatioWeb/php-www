@@ -13,7 +13,7 @@ memcache:
 web:
 
   environment:
-    - PHP_DISABLED_MODULES=xdebug xhprof
+    - PHP_DISABLE_MODULES=xdebug xhprof
   volumes:
     - .:/var/www
     - logs/apache2:/var/log/apache2
