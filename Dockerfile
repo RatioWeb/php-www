@@ -33,6 +33,9 @@ ADD configs/apache/apache_default_ssl /etc/apache2/sites-available/000-default-s
 RUN a2enmod rewrite
 RUN a2enmod ssl
 
+# Enable xhprof by default
+RUN php5enmod xhprof
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --version=1.0.0-alpha11
 RUN mv composer.phar /usr/local/bin/composer  && chmod +x /usr/local/bin/composer
@@ -55,5 +58,6 @@ EXPOSE 80 22
 VOLUME  ["/var/log/apache2" ]
 VOLUME  ["/var/log/supervisor" ]
 VOLUME  ["/var/www" ]
+VOLUME  ["/var/xhprof-data"]
 
 CMD ["/run.sh"]
