@@ -22,6 +22,17 @@ then
     mkdir -p /var/spool/php-www
     touch /var/spool/php-www/password-generated
     echo "root:$PASSWORD" | chpasswd
+
+    echo "Generating www-data password"
+    PASSWORD=`apg -n1 -c /dev/random`;
+    echo "****************************"
+    echo "*                          *"
+    echo "* www-data password: $PASSWORD *"
+    echo "*                          *"
+    echo "****************************"
+    mkdir -p /var/spool/php-www
+    touch /var/spool/php-www/password-generated
+    echo "www-data:$PASSWORD" | chpasswd
 fi
 
 

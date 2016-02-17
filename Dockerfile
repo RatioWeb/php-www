@@ -4,7 +4,7 @@ MAINTAINER Jarek Sobiecki <jsobiecki@ratioweb.pl>
 # Install packages (this is generic version with all required extensions).
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-memcached php5-gd curl php5-sqlite apg
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl php5-xhprof php5-xdebug php5-memcache php5-memcached php5-gd curl php5-sqlite apg nodejs npm
 
 # Configure open ssh
 # See: http://docs.docker.com/examples/running_ssh_service/ for more details
@@ -41,7 +41,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --version=1.0.0-alpha11
 RUN mv composer.phar /usr/local/bin/composer  && chmod +x /usr/local/bin/composer
 
 # Install drush
-RUN /usr/local/bin/composer global require drush/drush:8.x
+RUN mkdir -p /usr/local/share/drush &&\
+cd /usr/local/share/drush &&\
+/usr/local/bin/composer require drush/drush:8.x &&\
+ln -s /usr/local/share/drush/bin/drush /usr/local/bin/drush
+
+
+# Install bower and gulp
+RUN npm -g bower && npm -g install gulp
 
 # Change PATH of root user
 RUN echo "export PATH=~/.composer/vendor/bin:$PATH" >> /root/.bashrc
