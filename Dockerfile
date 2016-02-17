@@ -41,14 +41,21 @@ RUN curl -sS https://getcomposer.org/installer | php -- --version=1.0.0-alpha11
 RUN mv composer.phar /usr/local/bin/composer  && chmod +x /usr/local/bin/composer
 
 # Install drush
-RUN mkdir -p /usr/local/share/drush &&\
-cd /usr/local/share/drush &&\
-/usr/local/bin/composer require drush/drush:8.x &&\
-ln -s /usr/local/share/drush/bin/drush /usr/local/bin/drush
+RUN mkdir -p /usr/local/share/drush && \
+  cd /usr/local/share/drush && \
+  /usr/local/bin/composer require drush/drush:8.x && \
+  ln -s /usr/local/share/drush/vendor/bin/drush /usr/local/bin/drush
 
+
+# Link nodejs to node bin
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install bower and gulp
-RUN npm -g bower && npm -g install gulp
+RUN npm -g install bower && npm -g install gulp && npm link gulp
+
+# Install compass && sass
+RUN apt-get -y install  ruby-compass
+
 
 # Change PATH of root user
 RUN echo "export PATH=~/.composer/vendor/bin:$PATH" >> /root/.bashrc
